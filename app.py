@@ -1,7 +1,27 @@
-from database import create_database, add_post, get_posts_by_room
+import os
+from pathlib import Path
+
 from flask import Flask, render_template, request, redirect, url_for
 
+from database import (
+    db,
+    create_database,
+    add_post,
+    get_posts_by_room
+)
+
+
+BASE_DIR = Path(__file__).resolve().parent
+LOCAL_DATABASE_PATH = BASE_DIR / "rp_hub.db"
+
 app = Flask(__name__)
+
+app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv(
+    "DATABASE_URL",
+    f"sqlite:///{LOCAL_DATABASE_PATH.as_posix()}"
+)
+
+db.init_app(app)
 
 
 rooms_data = {
@@ -15,7 +35,10 @@ rooms_data = {
     },
     3: {
         "title": "Lovecraft",
-        "description": "A roleplay room inspired by the Dreamlands and weird fiction."
+        "description": (
+            "A roleplay room inspired by the Dreamlands "
+            "and weird fiction."
+        )
     }
 }
 
@@ -27,7 +50,10 @@ def login():
 
 @app.route("/rooms")
 def rooms():
-    return render_template("rooms.html", rooms=rooms_data)
+    return render_template(
+        "rooms.html",
+        rooms=rooms_data
+    )
 
 
 @app.route("/room/<int:room_id>", methods=["GET", "POST"])
@@ -38,13 +64,26 @@ def room(room_id):
         return "Room not found", 404
 
     if request.method == "POST":
-        character_name = request.form.get("character_name", "").strip()
-        content = request.form.get("content", "").strip()
+        character_name = request.form.get(
+            "character_name",
+            ""
+        ).strip()
+
+        content = request.form.get(
+            "content",
+            ""
+        ).strip()
 
         if character_name and content:
-            add_post(room_id, character_name, content)
+            add_post(
+                room_id,
+                character_name,
+                content
+            )
 
-        return redirect(url_for("room", room_id=room_id))
+        return redirect(
+            url_for("room", room_id=room_id)
+        )
 
     posts = get_posts_by_room(room_id)
 
@@ -56,5 +95,5 @@ def room(room_id):
 
 
 if __name__ == "__main__":
-    create_database()
+    create_database(app)
     app.run(debug=True)

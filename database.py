@@ -1,52 +1,62 @@
-import sqlite3
+from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import Integer, String, Text
+from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 
 
-def create_database():
-    connection = sqlite3.connect("rp_hub.db")
-    cursor = connection.cursor()
+class Base(DeclarativeBase):
+    pass
 
-    cursor.execute("""
-        CREATE TABLE IF NOT EXISTS posts (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            room_id INTEGER NOT NULL,
-            character_name TEXT NOT NULL,
-            content TEXT NOT NULL
-        )
-    """)
 
-    connection.commit()
-    connection.close()
+db = SQLAlchemy(model_class=Base)
+
+
+class Post(db.Model):
+    __tablename__ = "posts"
+
+    id: Mapped[int] = mapped_column(
+        Integer,
+        primary_key=True
+    )
+
+    room_id: Mapped[int] = mapped_column(
+        Integer,
+        nullable=False
+    )
+
+    character_name: Mapped[str] = mapped_column(
+        String(100),
+        nullable=False
+    )
+
+    content: Mapped[str] = mapped_column(
+        Text,
+        nullable=False
+    )
+
+
+def create_database(app):
+    with app.app_context():
+        db.create_all()
 
 
 def add_post(room_id, character_name, content):
-    connection = sqlite3.connect("rp_hub.db")
-    cursor = connection.cursor()
+    new_post = Post(
+        room_id=room_id,
+        character_name=character_name,
+        content=content
+    )
 
-    cursor.execute("""
-        INSERT INTO posts (room_id, character_name, content)
-        VALUES (?, ?, ?)
-    """, (room_id, character_name, content))
-
-    connection.commit()
-    connection.close()
+    db.session.add(new_post)
+    db.session.commit()
 
 
 def get_posts_by_room(room_id):
-    connection = sqlite3.connect("rp_hub.db")
+    statement = (
+        db.select(Post)
+        .where(Post.room_id == room_id)
+        .order_by(Post.id.asc())
+    )
 
-    connection.row_factory = sqlite3.Row
-
-    cursor = connection.cursor()
-
-    cursor.execute("""
-        SELECT id, room_id, character_name, content
-        FROM posts
-        WHERE room_id = ?
-        ORDER BY id ASC
-    """, (room_id,))
-
-    posts = cursor.fetchall()
-
-    connection.close()
+    posts = db.session.execute(statement).scalars().all()
 
     return posts
