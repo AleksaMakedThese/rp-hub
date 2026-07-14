@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Rooms | RP Hub
+{% endblock %}
+
+{% block content %}
+    <section class="rooms-section">
+        <h1>Choose a Room</h1>
+
+        <div class="rooms-list">
+            {% for room_id, room in rooms.items() %}
+                <article class="room-card">
+                    <h2>{{ room.title }}</h2>
+
+                    <p>{{ room.description }}</p>
+
+                    <a href="{{ url_for('room', room_id=room_id) }}">
+                        Enter Room
+                    </a>
+                </article>
+            {% else %}
+                <p>No rooms are available yet.</p>
+            {% endfor %}
+        </div>
+    </section>
+{% endblock %}
