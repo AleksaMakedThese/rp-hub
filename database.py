@@ -151,3 +151,5 @@ def create_user(username, password, role="user"):
     db.session.commit()
 
     return new_user
+def get_user_by_id(user_id):
+    return db.session.get(User, user_id)

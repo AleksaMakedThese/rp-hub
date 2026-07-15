@@ -548,3 +548,73 @@ textarea:focus-visible {
         padding: 1.25rem;
     }
 }
+
+/* =========================================================
+   LOGIN
+   ========================================================= */
+
+.login-section {
+    width: 100%;
+    max-width: 480px;
+    margin: 4rem auto;
+}
+
+.login-section h1 {
+    margin: 0 0 2rem;
+
+    font-family: "Permanent Marker", cursive;
+    font-size: clamp(2.7rem, 6vw, 4.5rem);
+}
+
+.login-form {
+    padding: 1.7rem;
+
+    background-color: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+}
+
+.form-error {
+    padding: 0.8rem 1rem;
+
+    background-color: rgba(255, 118, 38, 0.2);
+    border: 1px solid var(--accent-color);
+    border-radius: 8px;
+}
+
+.current-user {
+    color: var(--accent-color);
+
+    font-family: "Permanent Marker", cursive;
+    font-size: 0.95rem;
+    text-transform: uppercase;
+}
+
+.logout-form {
+    margin: 0;
+}
+
+.navigation-button {
+    padding: 0;
+
+    background: none;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+
+    color: var(--text-color);
+
+    font-family: "Permanent Marker", cursive;
+    font-size: 0.95rem;
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 7px;
+    text-transform: uppercase;
+}
+
+.navigation-button:hover {
+    background: none;
+    box-shadow: none;
+
+    color: var(--accent-color);
+}

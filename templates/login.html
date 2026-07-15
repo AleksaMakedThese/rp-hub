@@ -5,18 +5,47 @@
 {% endblock %}
 
 {% block content %}
-    <section class="welcome-section">
-<h1 class="hero-logo">
-    <span class="hero-logo-rp">RP</span>
-    <span class="hero-logo-hub">Hub</span>
-</h1>
+    <section class="login-section">
+        <h1>Login</h1>
 
-        <p>
-            Private portal for text-based roleplaying games.
-        </p>
+        {% if error %}
+            <p class="form-error">
+                {{ error }}
+            </p>
+        {% endif %}
 
-        <a href="{{ url_for('rooms') }}">
-            Enter without login for now
-        </a>
+        <form method="POST" class="login-form">
+            <div class="form-group">
+                <label for="username">
+                    Username
+                </label>
+
+                <input
+                    type="text"
+                    id="username"
+                    name="username"
+                    autocomplete="username"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="password">
+                    Password
+                </label>
+
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    autocomplete="current-password"
+                    required
+                >
+            </div>
+
+            <button type="submit">
+                Login
+            </button>
+        </form>
     </section>
 {% endblock %}

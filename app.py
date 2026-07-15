@@ -1,13 +1,23 @@
 import os
 from pathlib import Path
 
-from flask import Flask, render_template, request, redirect, url_for
+from flask import (
+    Flask,
+    render_template,
+    request,
+    redirect,
+    url_for,
+    session,
+    g
+)
 
 from database import (
     db,
     create_database,
     add_post,
-    get_posts_by_room
+    get_posts_by_room,
+    get_user_by_username,
+    get_user_by_id
 )
 
 
@@ -15,6 +25,11 @@ BASE_DIR = Path(__file__).resolve().parent
 LOCAL_DATABASE_PATH = BASE_DIR / "rp_hub.db"
 
 app = Flask(__name__)
+
+app.config["SECRET_KEY"] = os.getenv(
+    "SECRET_KEY",
+    "development-key-change-before-deployment"
+)
 
 app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv(
     "DATABASE_URL",
@@ -42,10 +57,58 @@ rooms_data = {
     }
 }
 
+@app.before_request
+def load_logged_in_user():
+    user_id = session.get("user_id")
+
+    if user_id is None:
+        g.user = None
+    else:
+        g.user = get_user_by_id(user_id)
 
 @app.route("/")
+def home():
+    return render_template("home.html")
+
+@app.route("/login", methods=["GET", "POST"])
 def login():
-    return render_template("login.html")
+    error = None
+
+    if request.method == "POST":
+        username = request.form.get(
+            "username",
+            ""
+        ).strip().lower()
+
+        password = request.form.get(
+            "password",
+            ""
+        )
+
+        user = get_user_by_username(username)
+
+        if user is None:
+            error = "Invalid username or password."
+
+        elif not user.check_password(password):
+            error = "Invalid username or password."
+
+        else:
+            session.clear()
+            session["user_id"] = user.id
+
+            return redirect(url_for("rooms"))
+
+    return render_template(
+        "login.html",
+        error=error
+    )
+
+@app.route("/logout", methods=["POST"])
+def logout():
+    session.clear()
+
+    return redirect(url_for("home"))
 
 
 @app.route("/rooms")

@@ -22,10 +22,34 @@
             RP Hub
         </a>
 
-        <nav class="site-navigation">
-            <a href="{{ url_for('rooms') }}">Rooms</a>
-            <a href="{{ url_for('login') }}">Login</a>
-        </nav>
+       <nav class="site-navigation">
+    <a href="{{ url_for('rooms') }}">
+        Rooms
+    </a>
+
+    {% if g.user %}
+        <span class="current-user">
+            {{ g.user.username }}
+        </span>
+
+        <form
+            method="POST"
+            action="{{ url_for('logout') }}"
+            class="logout-form"
+        >
+            <button
+                type="submit"
+                class="navigation-button"
+            >
+                Logout
+            </button>
+        </form>
+    {% else %}
+        <a href="{{ url_for('login') }}">
+            Login
+        </a>
+    {% endif %}
+</nav>
     </header>
 
     <main class="page-content">
