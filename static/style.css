@@ -618,3 +618,20 @@ textarea:focus-visible {
 
     color: var(--accent-color);
 }
+
+.login-notice {
+    max-width: 760px;
+    padding: 1.25rem 1.5rem;
+
+    background-color: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+
+    color: var(--muted-text-color);
+    font-size: 1.35rem;
+}
+
+.login-notice a {
+    color: var(--accent-color);
+    font-weight: 600;
+}

@@ -27,34 +27,48 @@
         </section>
 
         <section class="post-form-section">
-            <h2>Add Post</h2>
+    <h2>Add Post</h2>
 
-            <form method="POST" class="post-form">
-                <div class="form-group">
-                    <label for="character_name">Character Name</label>
+    {% if g.user %}
+        <form method="POST" class="post-form">
+            <div class="form-group">
+                <label for="character_name">
+                    Character Name
+                </label>
 
-                    <input
-                        type="text"
-                        id="character_name"
-                        name="character_name"
-                        required
-                    >
-                </div>
+                <input
+                    type="text"
+                    id="character_name"
+                    name="character_name"
+                    required
+                >
+            </div>
 
-                <div class="form-group">
-                    <label for="content">Post</label>
+            <div class="form-group">
+                <label for="content">
+                    Post
+                </label>
 
-                    <textarea
-                        id="content"
-                        name="content"
-                        rows="8"
-                        required
-                    ></textarea>
-                </div>
+                <textarea
+                    id="content"
+                    name="content"
+                    rows="8"
+                    required
+                ></textarea>
+            </div>
 
-                <button type="submit">Publish</button>
-            </form>
-        </section>
+            <button type="submit">
+                Publish
+            </button>
+        </form>
+    {% else %}
+        <p class="login-notice">
+            You need to
+            <a href="{{ url_for('login') }}">log in</a>
+            to publish a post.
+        </p>
+    {% endif %}
+</section>
 
         <p>
             <a href="{{ url_for('rooms') }}">
