@@ -133,6 +133,9 @@ def room(room_id):
         if g.user is None:
             return redirect(url_for("login"))
 
+        if not g.user.can_publish:
+            return "This account has read-only access.", 403
+
         character_name = request.form.get(
             "character_name",
             ""
@@ -145,9 +148,10 @@ def room(room_id):
 
         if character_name and content:
             add_post(
-                room_id,
-                character_name,
-                content
+                room_id=room_id,
+                user_id=g.user.id,
+                character_name=character_name,
+                content=content
             )
 
         return redirect(
@@ -161,7 +165,6 @@ def room(room_id):
         room=room,
         posts=posts
     )
-
 
 if __name__ == "__main__":
     create_database(app)

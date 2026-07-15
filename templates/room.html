@@ -17,9 +17,18 @@
             <div class="posts-list">
                 {% for post in posts %}
                     <article class="post-card">
-                        <h3>{{ post.character_name }}</h3>
-                        <p class="post-content">{{ post.content }}</p>
-                    </article>
+    <h3>{{ post.character_name }}</h3>
+
+    {% if post.author %}
+        <p class="post-author">
+            Published by {{ post.author.username }}
+        </p>
+    {% endif %}
+
+    <p class="post-content">
+        {{ post.content }}
+    </p>
+</article>
                 {% else %}
                     <p>No posts have been published in this room yet.</p>
                 {% endfor %}
@@ -29,7 +38,7 @@
         <section class="post-form-section">
     <h2>Add Post</h2>
 
-    {% if g.user %}
+    {% if g.user and g.user.can_publish %}
         <form method="POST" class="post-form">
             <div class="form-group">
                 <label for="character_name">
@@ -61,6 +70,12 @@
                 Publish
             </button>
         </form>
+
+    {% elif g.user %}
+        <p class="login-notice">
+            This account has read-only access.
+        </p>
+
     {% else %}
         <p class="login-notice">
             You need to

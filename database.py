@@ -1,6 +1,13 @@
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import Integer, String, Text
-from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
+from typing import Optional
+
+from sqlalchemy import ForeignKey, Integer, String, Text
+from sqlalchemy.orm import (
+    DeclarativeBase,
+    Mapped,
+    mapped_column,
+    relationship
+)
 from werkzeug.security import generate_password_hash, check_password_hash
 
 
@@ -34,6 +41,17 @@ class Post(db.Model):
         nullable=False
     )
 
+    user_id: Mapped[Optional[int]] = mapped_column(
+    ForeignKey(
+        "users.id",
+        name="fk_posts_user_id_users"
+    ),
+    nullable=True
+)
+
+    author: Mapped[Optional["User"]] = relationship(
+        back_populates="posts"
+    )
 
 class User(db.Model):
     __tablename__ = "users"
@@ -61,6 +79,14 @@ class User(db.Model):
         default="user"
     )
 
+    posts: Mapped[list["Post"]] = relationship(
+        back_populates="author"
+    )
+
+    @property
+    def can_publish(self) -> bool:
+        return self.role in {"user", "admin"}
+
     def set_password(self, password: str) -> None:
         self.password_hash = generate_password_hash(password)
 
@@ -70,19 +96,26 @@ class User(db.Model):
             password
         )
 
-
 def create_database(app):
     with app.app_context():
         db.create_all()
 
 
-def add_post(room_id, character_name, content):
+def add_post(
+    room_id,
+    user_id,
+    character_name,
+    content
+):
     new_post = Post(
         room_id=room_id,
+        user_id=user_id,
         character_name=character_name,
         content=content
     )
 
+    db.session.add(new_post)
+    db.session.commit()
     db.session.add(new_post)
     db.session.commit()
 
