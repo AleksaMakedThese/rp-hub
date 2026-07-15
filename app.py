@@ -1,3 +1,4 @@
+from flask_migrate import Migrate
 import os
 from pathlib import Path
 
@@ -37,6 +38,8 @@ app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv(
 )
 
 db.init_app(app)
+
+migrate = Migrate(app, db)
 
 
 rooms_data = {
@@ -127,6 +130,9 @@ def room(room_id):
         return "Room not found", 404
 
     if request.method == "POST":
+        if g.user is None:
+            return redirect(url_for("login"))
+
         character_name = request.form.get(
             "character_name",
             ""
