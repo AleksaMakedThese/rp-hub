@@ -54,6 +54,14 @@ def main() -> None:
             role="guest"
         )
 
+        ensure_user(
+            username_variable="BOOTSTRAP_USER_USERNAME",
+            password_variable="BOOTSTRAP_USER_PASSWORD",
+            role=os.getenv(
+                "BOOTSTRAP_USER_ROLE",
+                "user"
+            ).strip().lower()
+        )
 
 if __name__ == "__main__":
     main()
