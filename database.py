@@ -96,11 +96,6 @@ class User(db.Model):
             password
         )
 
-def create_database(app):
-    with app.app_context():
-        db.create_all()
-
-
 def add_post(
     room_id,
     user_id,

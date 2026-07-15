@@ -1,11 +1,10 @@
 from getpass import getpass
 
 from app import app
-from database import create_database, create_user
+from database import create_user
 
 
 def main():
-    create_database(app)
 
     username = input("Username: ").strip()
     password = getpass("Password: ")

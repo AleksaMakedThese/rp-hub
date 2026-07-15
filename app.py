@@ -14,7 +14,6 @@ from flask import (
 
 from database import (
     db,
-    create_database,
     add_post,
     get_posts_by_room,
     get_user_by_username,
@@ -27,18 +26,48 @@ LOCAL_DATABASE_PATH = BASE_DIR / "rp_hub.db"
 
 app = Flask(__name__)
 
-app.config["SECRET_KEY"] = os.getenv(
-    "SECRET_KEY",
-    "development-key-change-before-deployment"
+
+APP_ENV = os.getenv("APP_ENV", "development")
+IS_PRODUCTION = APP_ENV == "production"
+
+
+secret_key = os.getenv("SECRET_KEY")
+
+if IS_PRODUCTION and not secret_key:
+    raise RuntimeError(
+        "SECRET_KEY must be set in production."
+    )
+
+app.config["SECRET_KEY"] = (
+    secret_key
+    or "local-development-key"
 )
 
-app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv(
-    "DATABASE_URL",
-    f"sqlite:///{LOCAL_DATABASE_PATH.as_posix()}"
+
+database_url = os.getenv("DATABASE_URL")
+
+if IS_PRODUCTION and not database_url:
+    raise RuntimeError(
+        "DATABASE_URL must be set in production."
+    )
+
+app.config["SQLALCHEMY_DATABASE_URI"] = (
+    database_url
+    or f"sqlite:///{LOCAL_DATABASE_PATH.as_posix()}"
 )
+
+
+app.config["SQLALCHEMY_ENGINE_OPTIONS"] = {
+    "pool_pre_ping": True
+}
+
+
+app.config["SESSION_COOKIE_HTTPONLY"] = True
+app.config["SESSION_COOKIE_SAMESITE"] = "Lax"
+app.config["SESSION_COOKIE_SECURE"] = IS_PRODUCTION
+
 
 db.init_app(app)
-
 migrate = Migrate(app, db)
 
 
@@ -167,5 +196,4 @@ def room(room_id):
     )
 
 if __name__ == "__main__":
-    create_database(app)
     app.run(debug=True)
