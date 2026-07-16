@@ -1,27 +1,77 @@
-{% extends "base.html" %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
 
-{% block title %}
-    Rooms | RP Hub
-{% endblock %}
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-{% block content %}
-    <section class="rooms-section">
-        <h1>Choose a Room</h1>
+    <title>Rooms | RP Hub</title>
 
-        <div class="rooms-list">
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='rooms.css') }}"
+    >
+</head>
+
+<body class="rooms-page">
+    <header class="rooms-navigation">
+        <a
+            class="rooms-home-link"
+            href="{{ url_for('home') }}"
+            aria-label="Back to RP Hub home page"
+        >
+            <img
+                src="{{ url_for(
+                    'static',
+                    filename='images/rp-hub-icon.png'
+                ) }}"
+                alt="RP Hub"
+            >
+        </a>
+
+        <a
+            class="rooms-login-link"
+            href="{{ url_for('login') }}"
+            aria-label="Login"
+        >
+            <img
+                src="{{ url_for(
+                    'static',
+                    filename='images/login-icon.png'
+                ) }}"
+                alt=""
+            >
+        </a>
+    </header>
+
+    <main class="rooms-content">
+        <nav
+            class="rooms-list"
+            aria-label="Roleplay rooms"
+        >
             {% for room_id, room in rooms.items() %}
-                <article class="room-card">
-                    <h2>{{ room.title }}</h2>
+                <a
+                     class="room-portal room-portal-{{ room_id }}"
+                     href="{{ url_for('room', room_id=room_id) }}"
+>
+                    <img
+                        class="room-arc"
+                        src="{{ url_for(
+                            'static',
+                            filename='images/room-arc.png'
+                        ) }}"
+                        alt=""
+                    >
 
-                    <p>{{ room.description }}</p>
-
-                    <a href="{{ url_for('room', room_id=room_id) }}">
-                        Enter Room
-                    </a>
-                </article>
-            {% else %}
-                <p>No rooms are available yet.</p>
+                    <span class="room-name">
+                        {{ room.title }}
+                    </span>
+                </a>
             {% endfor %}
-        </div>
-    </section>
-{% endblock %}
+        </nav>
+    </main>
+</body>
+</html>

@@ -1,22 +1,43 @@
-{% extends "base.html" %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
 
-{% block title %}
-    Login | RP Hub
-{% endblock %}
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-{% block content %}
-    <section class="welcome-section">
-<h1 class="hero-logo">
-    <span class="hero-logo-rp">RP</span>
-    <span class="hero-logo-hub">Hub</span>
-</h1>
+    <title>RP Hub</title>
 
-        <p>
-            Private portal for text-based roleplaying games.
-        </p>
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='home.css') }}"
+    >
+</head>
 
-        <a href="{{ url_for('rooms') }}">
-            Enter without login for now
+<body class="home-page">
+    <a
+        class="home-login-link"
+        href="{{ url_for('login') }}"
+        aria-label="Login"
+    >
+        <img
+            src="{{ url_for(
+                'static',
+                filename='images/login-icon.png'
+            ) }}"
+            alt=""
+        >
+    </a>
+
+    <main class="home-hero">
+        <a
+            class="home-enter-link"
+            href="{{ url_for('rooms') }}"
+        >
+            Enter the Singularity
         </a>
-    </section>
-{% endblock %}
+    </main>
+</body>
+</html>

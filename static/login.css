@@ -1,0 +1,351 @@
+@import url(
+    "https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500&display=swap"
+);
+
+
+/* =========================================================
+   GLOBAL
+   ========================================================= */
+
+:root {
+    --login-background: #000000;
+    --login-title: #b54628;
+    --login-label: #d79b55;
+
+    --login-input-background: rgba(105, 105, 105, 0.88);
+    --login-input-text: #ffffff;
+    --login-input-border: rgba(201, 141, 49, 0.68);
+    --login-input-focus: #e16a31;
+
+    --login-error: #ff7652;
+}
+
+
+* {
+    box-sizing: border-box;
+}
+
+
+html,
+body {
+    width: 100%;
+    min-height: 100%;
+}
+
+
+body {
+    margin: 0;
+}
+
+
+/* =========================================================
+   PAGE
+   ========================================================= */
+
+.login-page {
+    min-height: 100vh;
+    min-height: 100svh;
+
+    overflow: hidden;
+
+    background-color: var(--login-background);
+    background-image: url("images/login-background.png");
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+
+    font-family: "Cinzel", Georgia, serif;
+}
+
+
+.login-content {
+    width: 100%;
+    min-height: 100vh;
+    min-height: 100svh;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 2rem;
+}
+
+
+/* =========================================================
+   LOGIN PANEL
+   ========================================================= */
+
+.login-panel {
+    width: min(90vw, 660px);
+
+    /*
+       Небольшое смещение вниз, чтобы форма визуально
+       находилась в центре чёрного круга.
+    */
+    transform:
+     translateY(1rem)
+     translateX(-2rem);
+
+}
+
+
+.login-title {
+    margin: 0 0 2.2rem;
+
+    color: var(--login-title);
+
+    font-size: clamp(2rem, 3vw, 3rem);
+    font-weight: 400;
+    letter-spacing: 0.06em;
+    line-height: 1;
+    text-align: center;
+    text-transform: uppercase;
+
+    text-shadow:
+        0 0 12px rgba(255, 75, 20, 0.18);
+}
+
+
+/* =========================================================
+   FORM
+   ========================================================= */
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.7rem;
+}
+
+
+.login-field {
+    width: 100%;
+
+    display: grid;
+    grid-template-columns: 9rem minmax(0, 1fr);
+    align-items: center;
+    gap: 1.5rem;
+}
+
+
+.login-field label {
+    color: var(--login-label);
+
+    font-size: clamp(1.1rem, 1.8vw, 1.55rem);
+    font-weight: 400;
+    letter-spacing: 0.04em;
+    text-align: right;
+    text-transform: uppercase;
+
+    text-shadow:
+        0 0 9px rgba(255, 140, 30, 0.18);
+}
+
+
+.login-field input {
+    width: 100%;
+    height: clamp(4.3rem, 7vw, 5.4rem);
+
+    padding: 0 1.3rem;
+
+    background-color: var(--login-input-background);
+    border: 1px solid var(--login-input-border);
+    border-radius: 1.5rem;
+    outline: none;
+
+    color: var(--login-input-text);
+    caret-color: var(--login-input-text);
+
+    font-family: Georgia, serif;
+    font-size: 1.25rem;
+
+    box-shadow: none;
+    transition: none;
+}
+
+
+.login-field input:focus {
+    background-color: rgba(115, 115, 115, 0.94);
+    border-color: var(--login-input-focus);
+
+    outline: 2px solid rgba(225, 106, 49, 0.58);
+    outline-offset: 2px;
+
+    box-shadow: none;
+}
+
+/* =========================================================
+   SUBMIT ICON
+   ========================================================= */
+
+.login-submit {
+    display: block;
+
+    width: clamp(5rem, 8vw, 7rem);
+
+    margin-top: 0.4rem;
+    padding: 0;
+
+    background: none;
+    border: none;
+
+    cursor: pointer;
+
+    transition:
+        filter 0.25s ease,
+        transform 0.25s ease;
+}
+
+
+.login-submit img {
+    display: block;
+
+    width: 100%;
+    height: auto;
+}
+
+
+.login-submit:hover {
+    transform: scale(1.08);
+
+    filter:
+        brightness(1.18)
+        drop-shadow(0 0 12px rgba(255, 79, 35, 0.4));
+}
+
+
+.login-submit:active {
+    transform: scale(0.98);
+}
+
+
+.login-submit:focus-visible {
+    outline: 2px solid var(--login-input-focus);
+    outline-offset: 7px;
+    border-radius: 50%;
+}
+
+
+/* =========================================================
+   ERROR MESSAGE
+   ========================================================= */
+
+.login-error {
+    width: min(100%, 460px);
+
+    margin: -0.7rem auto 1.5rem;
+    padding: 0.75rem 1rem;
+
+    background-color: rgba(100, 15, 10, 0.42);
+    border: 1px solid rgba(255, 92, 56, 0.55);
+    border-radius: 0.8rem;
+
+    color: var(--login-error);
+
+    font-family: Georgia, serif;
+    font-size: 1rem;
+    line-height: 1.4;
+    text-align: center;
+}
+
+
+/* =========================================================
+   AUTOFILL
+   ========================================================= */
+
+.login-field input:-webkit-autofill,
+.login-field input:-webkit-autofill:hover,
+.login-field input:-webkit-autofill:focus {
+    -webkit-text-fill-color: var(--login-input-text);
+    box-shadow:
+        0 0 0 1000px rgb(105, 105, 105) inset;
+
+    transition:
+        background-color 9999s ease-in-out 0s;
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 700px) {
+    .login-page {
+        background-position: center center;
+    }
+
+    .login-content {
+        align-items: center;
+
+        padding: 1.5rem;
+    }
+
+    .login-panel {
+        width: min(92vw, 430px);
+
+        transform: none;
+    }
+
+    .login-title {
+        margin-bottom: 1.8rem;
+    }
+
+    .login-form {
+        gap: 1.25rem;
+    }
+
+    .login-field {
+        grid-template-columns: 1fr;
+        gap: 0.55rem;
+    }
+
+    .login-field label {
+        text-align: left;
+    }
+
+    .login-field input {
+        height: 3.8rem;
+        border-radius: 1.15rem;
+    }
+
+    .login-submit {
+        width: clamp(4.5rem, 20vw, 6rem);
+
+        margin-top: 0.7rem;
+    }
+}
+
+
+@media (max-height: 600px) and (min-width: 701px) {
+    .login-panel {
+        transform: none;
+    }
+
+    .login-title {
+        margin-bottom: 1.4rem;
+    }
+
+    .login-form {
+        gap: 1rem;
+    }
+
+    .login-field input {
+        height: 3.8rem;
+    }
+
+    .login-submit {
+        width: 4.5rem;
+    }
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+    .login-field input,
+    .login-submit {
+        transition: none;
+    }
+}

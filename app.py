@@ -73,19 +73,16 @@ migrate = Migrate(app, db)
 
 rooms_data = {
     1: {
-        "title": "Tolkien",
-        "description": "A roleplay room set in Middle-earth."
+        "title": "Chat"
     },
     2: {
-        "title": "Historical Roleplay",
-        "description": "A roleplay room set in the early 20th century."
+        "title": "Dream-Quest"
     },
     3: {
-        "title": "Lovecraft",
-        "description": (
-            "A roleplay room inspired by the Dreamlands "
-            "and weird fiction."
-        )
+        "title": "Asylum"
+    },
+    4: {
+        "title": "Test"
     }
 }
 

@@ -1,0 +1,341 @@
+@import url(
+    "https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500&display=swap"
+);
+
+
+/* =========================================================
+   GLOBAL
+   ========================================================= */
+
+:root {
+    --rooms-background: #000000;
+    --rooms-text: #a84827;
+    --rooms-text-hover: #e16a31;
+}
+
+
+* {
+    box-sizing: border-box;
+}
+
+
+html,
+body {
+    width: 100%;
+    min-height: 100%;
+}
+
+
+body {
+    margin: 0;
+}
+
+
+.rooms-page {
+    position: relative;
+
+    min-height: 100vh;
+    min-height: 100svh;
+
+    background-color: var(--rooms-background);
+    background-image: url("images/rooms-background.png");
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+
+    color: var(--rooms-text);
+
+    font-family: "Cinzel", Georgia, serif;
+}
+
+
+/* =========================================================
+   TOP-LEFT NAVIGATION
+   ========================================================= */
+
+.rooms-navigation {
+    position: absolute;
+    top: clamp(1.25rem, 2.5vw, 2.5rem);
+    left: clamp(1.25rem, 2.5vw, 2.5rem);
+    z-index: 10;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: clamp(0.8rem, 1.5vw, 1.5rem);
+}
+
+
+.rooms-home-link,
+.rooms-login-link {
+    display: block;
+
+    transition:
+        opacity 0.25s ease,
+        transform 0.25s ease,
+        filter 0.25s ease;
+}
+
+
+.rooms-home-link {
+    width: clamp(8.5rem, 13.5vw, 13.5rem);
+}
+
+
+.rooms-login-link {
+    width: clamp(2.3rem, 3.7vw, 3.5rem);
+
+    opacity: 0.5;
+    transform: translateY(2rem);
+}
+
+
+.rooms-home-link img,
+.rooms-login-link img {
+    display: block;
+
+    width: 100%;
+    height: auto;
+}
+
+
+.rooms-home-link:hover {
+
+    filter:
+        brightness(1.2)
+        drop-shadow(0 0 10px rgba(255, 100, 25, 0.28));
+}
+
+
+.rooms-login-link:hover {
+    opacity: 0.9;
+    transform: scale(1.08);
+}
+
+
+
+/* =========================================================
+   ROOM PORTALS
+   ========================================================= */
+
+.rooms-content {
+    width: 100%;
+    min-height: 100vh;
+    min-height: 100svh;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding:
+        clamp(9rem, 14vw, 12rem)
+        clamp(2rem, 5vw, 6rem)
+        4rem;
+}
+
+
+.rooms-list {
+    width: min(94vw, 1500px);
+
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    align-items: center;
+    gap: clamp(1.5rem, 4vw, 5rem);
+}
+
+
+.room-portal {
+    --name-offset-x: 0;
+
+    position: relative;
+
+    display: grid;
+    grid-template-columns: 1fr;
+
+    width: 100%;
+    min-width: 0;
+
+    color: var(--rooms-text);
+    text-decoration: none;
+
+    transition:
+        color 0.3s ease,
+        filter 0.3s ease;
+}
+.room-portal-1 {
+    --name-offset-x: -0.3rem;
+}
+
+.room-portal-2 {
+    --name-offset-x: -0.4rem;
+}
+
+.room-portal-3 {
+    --name-offset-x: -0.2rem;
+}
+
+.room-portal-4 {
+    --name-offset-x: 0;
+}
+.room-arc {
+    display: block;
+
+    width: 100%;
+    height: auto;
+    margin: 0 auto;
+
+    transform: scale(1.035);
+    transform-origin: center center;
+
+    transition:
+        filter 0.3s ease,
+        opacity 0.3s ease;
+}
+
+
+.room-name {
+    display: block;
+
+    width: 100%;
+    margin-top: -3.4rem;
+
+    transform: translateX(var(--name-offset-x));
+
+    font-size: clamp(1rem, 1.7vw, 1.55rem);
+    font-weight: 400;
+    letter-spacing: 0.04em;
+    line-height: 1.2;
+    text-align: center;
+    text-transform: uppercase;
+    white-space: nowrap;
+
+    text-shadow:
+        0 0 10px rgba(255, 70, 15, 0.18);
+
+    transition:
+        color 0.3s ease,
+        text-shadow 0.3s ease;
+}
+
+
+.room-portal:hover .room-arc {
+    filter:
+        brightness(1.18)
+        drop-shadow(0 0 13px rgba(255, 90, 20, 0.38));
+}
+
+.room-portal:hover .room-name {
+    color: var(--rooms-text-hover);
+
+    text-shadow:
+        0 0 13px rgba(255, 90, 20, 0.55);
+}
+
+/* =========================================================
+   KEYBOARD NAVIGATION
+   ========================================================= */
+
+.rooms-home-link:focus-visible,
+.rooms-login-link:focus-visible,
+.room-portal:focus-visible {
+    outline: 2px solid var(--rooms-text-hover);
+    outline-offset: 6px;
+}
+
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 1000px) {
+    .rooms-content {
+        align-items: flex-start;
+
+        padding-top: 12rem;
+    }
+
+    .rooms-list {
+        width: min(90vw, 760px);
+
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap:
+            clamp(2rem, 6vw, 4rem)
+            clamp(2rem, 7vw, 5rem);
+    }
+
+    .room-name {
+        font-size: clamp(1rem, 3vw, 1.45rem);
+    }
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 600px) {
+    .rooms-page {
+        background-position: center top;
+    }
+
+    .rooms-navigation {
+        position: relative;
+
+        width: 100%;
+        min-height: 8rem;
+
+        top: auto;
+        left: auto;
+
+        flex-direction: row;
+        align-items: flex-start;
+        justify-content: space-between;
+
+        padding: 1.25rem;
+    }
+
+    .rooms-home-link {
+        width: clamp(4.5rem, 22vw, 6.5rem);
+    }
+
+    .rooms-login-link {
+        width: clamp(2.25rem, 11vw, 3.1rem);
+    }
+
+    .rooms-content {
+        min-height: auto;
+
+        align-items: flex-start;
+
+        padding:
+            2rem
+            2rem
+            5rem;
+    }
+
+    .rooms-list {
+        width: min(86vw, 360px);
+
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+    }
+
+    .room-name {
+        font-size: clamp(1.05rem, 5vw, 1.4rem);
+    }
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+    .rooms-home-link,
+    .rooms-login-link,
+    .room-portal,
+    .room-arc,
+    .room-name {
+        transition: none;
+    }
+}
